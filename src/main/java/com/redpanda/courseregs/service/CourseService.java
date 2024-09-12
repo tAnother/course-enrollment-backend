@@ -45,14 +45,17 @@ public class CourseService {
 
     public List<CourseDTO> getAllCourses() {
         List<Course> courses = courseRepository.findAll();
-        return courses.stream().map(course -> courseMapper.courseToCourseDTO(course)).collect(Collectors.toList());
+        return courses.stream().map(course -> courseMapper.courseToCourseDTO(course, false)).collect(Collectors.toList());
     }
 
     public List<CourseDTO> getEnrolledCourses(String username) {
         Optional<User> userOptional = userRepository.findOneByLogin(username);
         User user = userOptional.orElseThrow(() -> new UsernameNotFoundException("No such user: " + username));
         List<UserCourse> usercourses = userCourseRepository.findAllByUser(user);
-        return usercourses.stream().map(usercourse -> courseMapper.courseToCourseDTO(usercourse.getCourse())).collect(Collectors.toList());
+        return usercourses
+            .stream()
+            .map(usercourse -> courseMapper.courseToCourseDTO(usercourse.getCourse(), true))
+            .collect(Collectors.toList());
     }
 
     // validate username & coursename

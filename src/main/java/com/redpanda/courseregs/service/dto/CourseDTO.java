@@ -1,5 +1,6 @@
 package com.redpanda.courseregs.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,4 +12,7 @@ public class CourseDTO {
     private String courseDescription;
     private String courseLocation;
     private Long instructorId;
+
+    @JsonProperty("isEnrolled")
+    private boolean isEnrolled;
 }
